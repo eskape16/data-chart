@@ -1,0 +1,16 @@
+{
+  "name": "data-chart",
+  "version": "1.0.0",
+  "description": "Simple app with Plottable and Express js libraries",
+  "main": "index.js",
+  "author": "irina iskrenova <irina_emm@yahoo.es>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "nodemon": "^1.12.1",
+    "plottable": "^3.7.0"
+  }
+}

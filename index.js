@@ -3,9 +3,7 @@ const app = express()
 const path = require('path')
 const createDataset = require('./datasets')
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname + '/public/index.html'))
-})
+app.use(express.static('public'))
 
 app.get('/datasets', (req, res) => {
   res.set('Content-Type', 'application/json')

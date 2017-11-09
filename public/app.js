@@ -36,8 +36,13 @@ var getLinearRegressionData = function(data) {
 
 
 var drawChart = function(dt, mode) {
-  var groupToDisplay = [];
-  var data = dt[0];
+  var plotsToDisplay = [];
+  var linesToDisplay = [];
+  var colors = [
+    {"scatter":"#FF8A80","line":"#EF5350"},
+    {"scatter":"#B9F6CA","line":"#66BB6A"},
+    {"scatter":"#F4FF81","line":"#D4E157"}
+  ];
 
   //create scale for the axes
   var xScale = new Plottable.Scales.Linear();
@@ -48,35 +53,39 @@ var drawChart = function(dt, mode) {
   var xAxis = new Plottable.Axes.Numeric(xScale, 'bottom');
   var yAxis = new Plottable.Axes.Numeric(yScale, 'left');
   //an Axis takes as params the scale and a string('bottom','top','left','right') for the orientation(positioning)
-  var xLabel = new Plottable.Components.AxisLabel("Productivity", "0");//? second param?
-  var yLabel = new Plottable.Components.AxisLabel("Number of Songs", "270");
+  var xLabel = new Plottable.Components.AxisLabel("X-Scale Label", "0");//? second param?
+  var yLabel = new Plottable.Components.AxisLabel("Y-Scale Label", "270");
   //create the plot
 
-  var plotScattered = new Plottable.Plots.Scatter();
-  //set Accesors
-  plotScattered.x(function(d){ return d.x; }, xScale);
-  plotScattered.y(function(d){ return d.y; }, yScale);
-  plotScattered.attr("fill", function(d) { return "yellow"; });
+  dt.forEach(function(data, idx){
+    var plotScattered = new Plottable.Plots.Scatter();
+    var colorObj = colors[idx];
 
-  var dataset = new Plottable.Dataset(data);
-  plotScattered.addDataset(dataset);
+    //set Accesors
+    plotScattered.x(function(d){ return d.x; }, xScale);
+    plotScattered.y(function(d){ return d.y; }, yScale);
+    plotScattered.attr("fill", function(d) { return colorObj.scatter; });
 
-  groupToDisplay.push(plotScattered);
+    var dataset = new Plottable.Dataset(data);
+    plotScattered.addDataset(dataset);
 
-  if(mode === "linear"){
-    var linearData = getLinearRegressionData(data);
-    var linearDataset = new Plottable.Dataset(linearData);
-    var linearPlot = new Plottable.Plots.Line()
-      .addDataset(linearDataset)
-      .x(function(d) { return d.x; }, xScale)
-      .y(function(d) { return d.y; }, yScale)
-      .attr("stroke", function(d) { return "green"; });
+    plotsToDisplay.push(plotScattered);
 
-    groupToDisplay.push(linearPlot);
+    if(mode === "linear"){
+      var linearData = getLinearRegressionData(data);
+      var linearDataset = new Plottable.Dataset(linearData);
+      var linearPlot = new Plottable.Plots.Line()
+        .addDataset(linearDataset)
+        .x(function(d) { return d.x; }, xScale)
+        .y(function(d) { return d.y; }, yScale)
+        .attr("stroke", function(d) { return colorObj.line; });
+
+      linesToDisplay.push(linearPlot);
     }
+  });
 
   //create table to put together
-  var mergedPlots = new Plottable.Components.Group(groupToDisplay);
+  var mergedPlots = new Plottable.Components.Group(plotsToDisplay.concat(linesToDisplay));
 
   var chart = new Plottable.Components.Table([
     [yLabel,yAxis, mergedPlots],

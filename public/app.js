@@ -1,8 +1,10 @@
+var rawData = [];
 var getData = function() {
 
   $.ajax({
     url: '/datasets',
     success: function(data) {
+      rawData = data;
       drawChart(data);
     },
     dataType: "JSON"
@@ -33,8 +35,8 @@ var getLinearRegressionData = function(data) {
 }
 
 
-var drawChart = function(dt) {
-
+var drawChart = function(dt, mode) {
+  var groupToDisplay = [];
   var data = dt[0];
 
   //create scale for the axes
@@ -59,16 +61,22 @@ var drawChart = function(dt) {
   var dataset = new Plottable.Dataset(data);
   plotScattered.addDataset(dataset);
 
-  var linearData = getLinearRegressionData(data);
-  var linearDataset = new Plottable.Dataset(linearData);
-  var linearPlot = new Plottable.Plots.Line()
-    .addDataset(linearDataset)
-    .x(function(d) { return d.x; }, xScale)
-    .y(function(d) { return d.y; }, yScale)
-    .attr("stroke", function(d) { return "green"; });
+  groupToDisplay.push(plotScattered);
+
+  if(mode === "linear"){
+    var linearData = getLinearRegressionData(data);
+    var linearDataset = new Plottable.Dataset(linearData);
+    var linearPlot = new Plottable.Plots.Line()
+      .addDataset(linearDataset)
+      .x(function(d) { return d.x; }, xScale)
+      .y(function(d) { return d.y; }, yScale)
+      .attr("stroke", function(d) { return "green"; });
+
+    groupToDisplay.push(linearPlot);
+    }
 
   //create table to put together
-  var mergedPlots = new Plottable.Components.Group([plotScattered, linearPlot]);
+  var mergedPlots = new Plottable.Components.Group(groupToDisplay);
 
   var chart = new Plottable.Components.Table([
     [yLabel,yAxis, mergedPlots],
@@ -76,9 +84,29 @@ var drawChart = function(dt) {
     [null, null, xLabel]
   ]);
 
+  $("#basic-chart").empty();
   chart.renderTo("#basic-chart");
 };
 
+var toggleChartLines = function(ev){
+  var btn = $(ev.target);
+  var next, btnText;
+
+  switch (btn.data("current")) {
+    case "linear":
+      next = "none";
+      btnText = "Show Linear Regression";
+    break;
+    default:
+      next = "linear";
+      btnText = "Hide Linear Regression";
+    break;
+  }
+  btn.text(btnText).data("current", next);
+  drawChart(rawData, next);
+}
+
 $(document).ready(function() {
+  $("#toggle-line").on("click", toggleChartLines);
   getData();
 });

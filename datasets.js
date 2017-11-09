@@ -12,7 +12,7 @@ const getNumberOfItems = (minItems, maxItems) => {
   //console.log("Range: "+min+"-"+max+" Number of items: "+num);
 }
 
-const createDataset = () => {
+const createSingleDataset = () => {
   const data = [];
   const numOfItems = getNumberOfItems(minItems, maxItems);
   for (let i = 0; i <= numOfItems; i++) {
@@ -26,4 +26,12 @@ const createDataset = () => {
   return data;
 }
 
-module.exports = createDataset;
+const createDatasets = (n) => {
+  const data = [];
+  for(let i = 0; i < n; i++) {
+    data.push(createSingleDataset());
+  }
+  return data;
+}
+
+module.exports = createDatasets;

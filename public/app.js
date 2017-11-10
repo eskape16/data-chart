@@ -10,6 +10,8 @@ var getData = function() {
     dataType: "JSON"
   });
 };
+
+
 //transform an array of objects to 2-D array
 var transformDataset = function (arr) {
   var arrNew = arr.map(function(pair){
@@ -53,8 +55,8 @@ var drawChart = function(dt, mode) {
   var xAxis = new Plottable.Axes.Numeric(xScale, 'bottom');
   var yAxis = new Plottable.Axes.Numeric(yScale, 'left');
   //an Axis takes as params the scale and a string('bottom','top','left','right') for the orientation(positioning)
-  var xLabel = new Plottable.Components.AxisLabel("X-Scale Label", "0");//? second param?
-  var yLabel = new Plottable.Components.AxisLabel("Y-Scale Label", "270");
+  var xLabel = new Plottable.Components.AxisLabel("X-Axis Label", "0");//? second param?
+  var yLabel = new Plottable.Components.AxisLabel("Y-Axis Label", "270");
   //create the plot
 
   dt.forEach(function(data, idx){

@@ -1,3 +1,10 @@
+var $ = require("jquery");
+var ss = require("simple-statistics");
+var Plottable = require("plottable");
+
+console.log("Build works with Gulp + Webpack  !!!");
+
+
 var rawData = [];
 var getData = function() {
 

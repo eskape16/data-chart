@@ -1,4 +1,5 @@
-import { getLinearRegressionData } from 'calculations';
+var Plottable = require("plottable");
+var getLinearRegressionData = require ('./calculations');
 
 var getChartTemplate = function(dt, mode) {
   var plotsToDisplay = [];
@@ -62,4 +63,4 @@ var getChartTemplate = function(dt, mode) {
 };
 
 
-export default getChartTemplate;
+module.exports = getChartTemplate;

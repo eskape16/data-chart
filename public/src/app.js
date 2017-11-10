@@ -1,14 +1,9 @@
 var $ = require("jquery");
 var ss = require("simple-statistics");
-var Plottable = require("plottable");
-import { getChartTemplate } from 'chart';
-
-console.log("Build works with Gulp + Webpack  !!!");
-
-
+var getChartTemplate = require("./chart");
 var rawData = [];
-var getData = function() {
 
+var getData = function() {
   $.ajax({
     url: '/datasets',
     success: function(data) {
@@ -47,5 +42,3 @@ $(document).ready(function() {
   $("#toggle-line").on("click", toggleChartLines);
   getData();
 });
-
-export default rawData;

@@ -22,4 +22,4 @@ var getLinearRegressionData = function(data) {
   });
 }
 
-export default getLinearRegressionData;
+module.exports = getLinearRegressionData;

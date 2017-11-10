@@ -1,3 +1,5 @@
+var ss = require("simple-statistics");
+
 //transform an array of objects to 2-D array
 var transformDataset = function (arr) {
   var arrNew = arr.map(function(pair){

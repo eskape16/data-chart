@@ -1,5 +1,4 @@
 var $ = require("jquery");
-var ss = require("simple-statistics");
 var getChartTemplate = require("./chart");
 var rawData = [];
 

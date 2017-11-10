@@ -9,16 +9,17 @@ You need to install [yarn](https://yarnpkg.com/en/docs/install).
 ### Installing
 
 To start the project type
-
 ```
 yarn
 ```
-
 then
-
+```
+yarn gulp
+```
+and then
 ```
 yarn start
 ```
-Alternatively, use `npm install && npm start`.
+Alternatively, use `npm install` then `npm gulp && npm start`.
 
 Open the browser and navigate to `localhost:3000`.
